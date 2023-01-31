@@ -1,13 +1,11 @@
-FROM python:3.8.2-alpine3.11
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
 
-ENV FLASK_APP=main.py
-ENV FLASK_ENV=development
 
-COPY . /app
 WORKDIR /app
 
-RUN pip install -r requirements.txt
+RUN dotnet restore
+RUN dotnet publish -c Release -o out
 
 
 
-ENTRYPOINT FLASK_APP=/app/server.py flask run --host=0.0.0.0 --port=80
+ENTRYPOINT [ "dotnet", "docker-dotnet-api.dll" ]
